@@ -10,6 +10,56 @@ export type TreeTable = {
     Children: TreeTableNode[];
 };
 
+export const simpleTable: TreeTable = {
+    Name: "SimpleTable",
+    Children: [{
+        VerticalSpan: 1,
+        Color: 'yellow',
+        Value: '1',
+        Children: [{
+            VerticalSpan: 1,
+            Color: 'yellow',
+            Value: '4',
+            Children: [{
+                VerticalSpan: 1,
+                Color: 'yellow',
+                Value: '7',
+                Children: []
+            }]
+        }]
+    }, {
+        VerticalSpan: 1,
+        Color: 'yellow',
+        Value: '2',
+        Children: [{
+            VerticalSpan: 1,
+            Color: 'yellow',
+            Value: '5',
+            Children: [{
+                VerticalSpan: 1,
+                Color: 'yellow',
+                Value: '8',
+                Children: []
+            }]
+        }]
+    }, {
+        VerticalSpan: 1,
+        Color: 'yellow',
+        Value: '3',
+        Children: [{
+            VerticalSpan: 1,
+            Color: 'yellow',
+            Value: '6',
+            Children: [{
+                VerticalSpan: 1,
+                Color: 'yellow',
+                Value: '9',
+                Children: []
+            }]
+        }]
+    }]
+};
+
 export const defaultTreeTable: TreeTable = {
     Name: "Table",
     Children: [
