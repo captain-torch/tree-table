@@ -1,5 +1,6 @@
 import { renderTreeTable } from './renderer';
-import { defaultTreeTable } from './tree';
+import {addColumnAfter, addRowAfter} from './editor';
+import {simpleTable} from './tree';
 
 declare global {
     interface Window {
@@ -22,23 +23,15 @@ declare global {
     }
 }
 
-const treeTable = defaultTreeTable;
+const treeTable = simpleTable;
 
 const addColumn = (rowIndex: number, colIndex: number) => {
-
-    /**
-     * Magic is supposed to happen here...
-     */
-
+    addColumnAfter(treeTable, colIndex);
     renderTreeTable('tree-table', treeTable);
 };
 
 const addRow = (rowIndex: number, colIndex: number) => {
-
-    /**
-     * Magic is supposed to happen here...
-     */
-
+    addRowAfter(treeTable, rowIndex);
     renderTreeTable('tree-table', treeTable);
 };
 

@@ -61,11 +61,11 @@
         require(['index']);
 
         function getRowIndex() {
-            return parseInt(document.querySelector('#rowIndex').innerText, 10);
+            return parseInt(document.querySelector('#rowIndex').value, 10);
         }
 
         function getColIndex() {
-            return parseInt(document.querySelector('#colIndex').innerText, 10);
+            return parseInt(document.querySelector('#colIndex').value, 10);
         }
 
         function addColumn() { TreeTable.AddColumn(getRowIndex(), getColIndex()); }
