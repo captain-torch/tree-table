@@ -29,10 +29,11 @@ export function addColumnAfter (tree: TreeTable, after: number) {
 
 export function addRowAfter (tree: TreeTable, after: number) {
     const prevRow = getRow(tree, after - 1);
-    prevRow.forEach(cell => {
-        const newCell = createNode();
-        newCell.Children = cell.Children;
-        cell.Children = [newCell]
+    prevRow.forEach(parent => {
+        parent.Children = parent.Children.map(child => ({
+            ...createNode(),
+            Children: [child]
+        }))
     })
 }
 
@@ -40,7 +41,7 @@ function createNode (): TreeTableNode {
     return {
         VerticalSpan: 1,
         Value: 'NEW',
-        Color: 'green',
+        Color: 'lime',
         Children: []
     };
 }
