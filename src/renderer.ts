@@ -1,8 +1,17 @@
 import { TreeTable, TreeTableNode } from './tree';
 
+function calcSpan (children: TreeTableNode[]): number {
+    return children.reduce(
+        (overall: number, value: TreeTableNode) => {
+            return overall + (value.Children.length ? calcSpan(value.Children) : 1)
+        },
+        0
+    );
+}
+
 const createCellElement = ({ Children, Color, Value, VerticalSpan }: TreeTableNode) => {
     const cell = document.createElement('td');
-    cell.colSpan = Children.length > 1 ? Children.length : 1;
+    cell.colSpan = calcSpan(Children);
     cell.rowSpan = VerticalSpan;
     cell.innerText = Value;
     cell.setAttribute('style', `background-color: ${Color}`);
