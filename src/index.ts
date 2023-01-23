@@ -1,6 +1,6 @@
 import { renderTreeTable } from './renderer';
 import {addColumnAfter, addRowAfter} from './editor';
-import {onlyHorizontalSpansTable} from './tree';
+import {defaultTreeTable} from './tree';
 
 declare global {
     interface Window {
@@ -23,14 +23,14 @@ declare global {
     }
 }
 
-const treeTable = onlyHorizontalSpansTable;
+const treeTable = defaultTreeTable;
 
 const addColumn = (rowIndex: number, colIndex: number) => {
     addColumnAfter(treeTable, colIndex);
     renderTreeTable('tree-table', treeTable);
 };
 
-const addRow = (rowIndex: number, colIndex: number) => {
+const addRow = (rowIndex: number) => {
     addRowAfter(treeTable, rowIndex);
     renderTreeTable('tree-table', treeTable);
 };
