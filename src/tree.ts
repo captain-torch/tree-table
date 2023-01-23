@@ -72,7 +72,7 @@ export const onlyHorizontalSpansTable: TreeTable = {
             VerticalSpan: 1,
             Children: [{
                 Color: 'teal',
-                Value: '10',
+                Value: '9',
                 VerticalSpan: 1,
                 Children: []
             }]
@@ -82,11 +82,21 @@ export const onlyHorizontalSpansTable: TreeTable = {
             VerticalSpan: 1,
             Children: [{
                 Color: 'teal',
+                Value: '10',
+                VerticalSpan: 1,
+                Children: []
+            }, {
+                Color: 'teal',
                 Value: '11',
                 VerticalSpan: 1,
                 Children: []
             }]
-        }, {
+        }]
+    }, {
+        Color: 'teal',
+        Value: '2',
+        VerticalSpan: 1,
+        Children: [{
             Color: 'teal',
             Value: '6',
             VerticalSpan: 1,
@@ -99,7 +109,7 @@ export const onlyHorizontalSpansTable: TreeTable = {
         }]
     }, {
         Color: 'teal',
-        Value: '2',
+        Value: '3',
         VerticalSpan: 1,
         Children: [{
             Color: 'teal',
@@ -111,28 +121,13 @@ export const onlyHorizontalSpansTable: TreeTable = {
                 VerticalSpan: 1,
                 Children: []
             }]
-        }]
-    }, {
-        Color: 'teal',
-        Value: '3',
-        VerticalSpan: 1,
-        Children: [{
+        }, {
             Color: 'teal',
             Value: '8',
             VerticalSpan: 1,
             Children: [{
                 Color: 'teal',
                 Value: '14',
-                VerticalSpan: 1,
-                Children: []
-            }]
-        }, {
-            Color: 'teal',
-            Value: '9',
-            VerticalSpan: 1,
-            Children: [{
-                Color: 'teal',
-                Value: '15',
                 VerticalSpan: 1,
                 Children: []
             }]
