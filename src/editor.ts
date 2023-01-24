@@ -1,100 +1,104 @@
 import {TreeTable, TreeTableNode} from "./tree";
 
-type TreeNode = {
-    Children: TreeTableNode[],
-    Value?: string,
-    VerticalSpan?: number
-};
+type TableRow = Array<{
+    node: TreeTableNode,
+    level: number
+}>
 
-type TreePathItem = {
-    node: TreeNode,
+type TableColumn = Array<{
+    node: TreeTableNode,
     index: number
-}
+}>
 
-type TreePath = Array<TreePathItem>
-
-
-function getRow (root: TreeNode, index: number): TreeNode[] {
-    const row: TreeNode[] = [];
-    function iterateNodes (node: TreeNode, counter: number = 0) {
-        counter += node.VerticalSpan || 1;
-        if (counter > index) {
-            row.push(node);
+function getRow (root: TreeTable, index: number): TableRow {
+    const row: TableRow = [];
+    function iterateChildren (node: TreeTableNode, level: number = 0) {
+        level += node.VerticalSpan;
+        if (level >= index) {
+            row.push({node, level});
             return;
         }
-        node.Children.forEach((c) => iterateNodes(c, counter))
+        node.Children.forEach((c) => iterateChildren(c, level))
     }
-    iterateNodes(root);
+    root.Children.forEach((c) => iterateChildren(c));
     return row;
 }
 
-function getColumn (root: TreeNode, index: number): TreePath {
-    let counter = 0;
-    let column: TreePath = [];
+export function addRowAfter (tree: TreeTable, after: number) {
+    if (after === 0) {
+        alert('First row has index 1');
+        return;
+    }
+    const prevRow = getRow(tree, after);
+    if (!prevRow.length) {
+        alert(`No row with index ${after}`);
+        return;
+    }
+    for (let i = 0; i < prevRow.length; i++) {
+        const {node, level} = prevRow[i];
+        if (level > after) {
+            node.VerticalSpan ++
+        } else if (node.Children.length) {
+            node.Children = node.Children.map(child => createNode([child]));
+        } else {
+            node.Children = [createNode()];
+        }
+    }
+}
 
-    function iterateNodes (node: TreeNode, path: TreePath = []): void {
+function getColumn (root: TreeTable, index: number): TableColumn {
+    let counter = 0;
+    let column: TableColumn = [];
+
+    function iterateChildren (node: TreeTableNode, path: TableColumn = []): void {
         if (column.length) {
             return;
         } else if (node.Children.length) {
-            node.Children.forEach((c, index) => iterateNodes(c, [...path, { node, index }]))
+            node.Children.forEach((c, index) => iterateChildren(c, [...path, { node, index }]))
         } else {
             counter ++;
-            if (counter === index) column = path;
+            if (counter === index) column = [...path, { node, index: -1 }];
         }
     }
 
-    iterateNodes(root);
+    root.Children.forEach((node) => iterateChildren(node));
     return column;
 }
 
 export function addColumnAfter (tree: TreeTable, after: number) {
-    const path = getColumn(tree, after);
-    if (!path.length) {
-        alert(`Cannot insert after column ${after}`);
+    if (after === 0) {
+        alert('First column has index 1');
         return;
     }
-    let insertTo: TreePathItem | null = null;
-    let newColumn = createNode();
-    for (let i = path.length - 1; i > 0; i--) {
+    const prevColumn = getColumn(tree, after);
+    if (!prevColumn.length) {
+        alert(`No column with index ${after}`);
+        return;
+    }
+    let newColumn;
+    for (let i = prevColumn.length - 1; i >= 0; i--) {
+        const {node, index} = prevColumn[i];
         if (
-            path[i].node.Children.length === 1 ||
-            path[i].index === path[i].node.Children.length - 1
+            node.Children.length === 1 ||
+            index === node.Children.length - 1
         ) {
-            for (let j = 0; j < (path[i].node.VerticalSpan || 1); j++) {
-                newColumn = { ...createNode(), Children: [newColumn] }
+            for (let j = 0; j < node.VerticalSpan; j++) {
+                newColumn = createNode(newColumn ? [newColumn] : []);
             }
         } else {
-            insertTo = path[i];
-            break;
+            node.Children.splice(index + 1, 0, newColumn);
+            return;
         }
     }
-    insertTo = insertTo || path[0];
-    insertTo.node.Children.splice(insertTo.index + 1, 0, newColumn);
+    const index = tree.Children.indexOf(prevColumn[0].node) + 1;
+    tree.Children.splice(index, 0, newColumn);
 }
 
-export function addRowAfter (tree: TreeTable, after: number) {
-    const prevRow = getRow(tree, after);
-    if (!prevRow.length) {
-        alert(`Cannot insert after row ${after}`);
-        return;
-    }
-    for (let i = 0; i < prevRow.length; i++) {
-        if ((prevRow[i].VerticalSpan || 1) > 1) {
-            (prevRow[i].VerticalSpan as number) ++
-        } else {
-            prevRow[i].Children = prevRow[i].Children.map(child => ({
-                ...createNode(),
-                Children: [child]
-            }))
-        }
-    }
-}
-
-function createNode (): TreeTableNode {
+function createNode (Children: TreeTableNode[] = []): TreeTableNode {
     return {
         VerticalSpan: 1,
-        Value: 'NEW',
-        Color: 'lime',
-        Children: []
+        Value: 'new',
+        Color: 'yellow',
+        Children
     };
 }
