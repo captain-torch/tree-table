@@ -24,19 +24,19 @@ function getRow (root: TreeTable, index: number): TableRow {
     return row;
 }
 
-export function addRowAfter (tree: TreeTable, after: number) {
-    if (after === 0) {
+export function addRowAfter (tree: TreeTable, rowIndex: number, colIndex: number) {
+    if (rowIndex === 0) {
         alert('First row has index 1');
         return;
     }
-    const prevRow = getRow(tree, after);
+    const prevRow = getRow(tree, rowIndex);
     if (!prevRow.length) {
-        alert(`No row with index ${after}`);
+        alert(`No row with index ${rowIndex}`);
         return;
     }
     for (let i = 0; i < prevRow.length; i++) {
         const {node, level} = prevRow[i];
-        if (level > after) {
+        if (level > rowIndex) {
             node.VerticalSpan ++
         } else if (node.Children.length) {
             node.Children = node.Children.map(child => createNode([child]));
@@ -65,14 +65,14 @@ function getColumn (root: TreeTable, index: number): TableColumn {
     return column;
 }
 
-export function addColumnAfter (tree: TreeTable, after: number) {
-    if (after === 0) {
+export function addColumnAfter (tree: TreeTable, rowIndex: number, colIndex: number) {
+    if (colIndex === 0) {
         alert('First column has index 1');
         return;
     }
-    const prevColumn = getColumn(tree, after);
+    const prevColumn = getColumn(tree, colIndex);
     if (!prevColumn.length) {
-        alert(`No column with index ${after}`);
+        alert(`No column with index ${colIndex}`);
         return;
     }
     let newColumn;

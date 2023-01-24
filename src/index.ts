@@ -26,12 +26,12 @@ declare global {
 const treeTable = defaultTreeTable;
 
 const addColumn = (rowIndex: number, colIndex: number) => {
-    addColumnAfter(treeTable, colIndex);
+    addColumnAfter(treeTable, rowIndex, colIndex);
     renderTreeTable('tree-table', treeTable);
 };
 
-const addRow = (rowIndex: number) => {
-    addRowAfter(treeTable, rowIndex);
+const addRow = (rowIndex: number, colIndex: number) => {
+    addRowAfter(treeTable, rowIndex, colIndex);
     renderTreeTable('tree-table', treeTable);
 };
 
