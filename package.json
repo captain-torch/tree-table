@@ -9,6 +9,7 @@
         "build": "tsc"
     },
     "dependencies": {
+        "immer": "^9.0.18",
         "typescript": "^4.8.2"
     }
 }

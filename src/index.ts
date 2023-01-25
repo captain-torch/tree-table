@@ -1,9 +1,11 @@
 import { renderTreeTable } from './renderer';
 import {addColumnAfter, addRowAfter} from './editor';
 import {defaultTreeTable} from './tree';
+import {Immer} from "immer";
 
 declare global {
     interface Window {
+        immer: Immer,
         TreeTable: {
 
             /**
@@ -23,15 +25,15 @@ declare global {
     }
 }
 
-const treeTable = defaultTreeTable;
+let treeTable = defaultTreeTable;
 
 const addColumn = (rowIndex: number, colIndex: number) => {
-    addColumnAfter(treeTable, rowIndex, colIndex);
+    treeTable = addColumnAfter(treeTable, colIndex);
     renderTreeTable('tree-table', treeTable);
 };
 
-const addRow = (rowIndex: number, colIndex: number) => {
-    addRowAfter(treeTable, rowIndex, colIndex);
+const addRow = (rowIndex: number) => {
+    treeTable = addRowAfter(treeTable, rowIndex);
     renderTreeTable('tree-table', treeTable);
 };
 
