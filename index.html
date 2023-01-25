@@ -47,6 +47,10 @@
 <body>
     <div id="tree-table"></div>
 
+    <div style="position: absolute; left: 16px; top: 16px">
+        <button id="undoButton" onclick="TreeTable.Undo()">Undo</button>
+    </div>
+
     <div style="position: absolute; right: 16px; top: 16px">
         <label for="rowIndex">Row Index</label>
         <input type="number" id="rowIndex" value="1">

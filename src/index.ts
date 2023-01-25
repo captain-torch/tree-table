@@ -1,6 +1,6 @@
 import { renderTreeTable } from './renderer';
 import {addColumnAfter, addRowAfter} from './editor';
-import {defaultTreeTable} from './tree';
+import {defaultTreeTable, TreeTable} from './tree';
 import {Immer} from "immer";
 
 declare global {
@@ -21,29 +21,48 @@ declare global {
              * @param colIndex a column index of the target cell
              */
             AddRow: (rowIndex: number, colIndex: number) => void;
+
+            Undo: () => void;
         }
     }
 }
 
-let treeTable = defaultTreeTable;
+const history: TreeTable[] = [defaultTreeTable];
+let historyPointer = 0;
+
+const performAction = (action: (table: TreeTable) => TreeTable) => {
+    history.push(action(history[historyPointer]));
+    historyPointer ++;
+    render();
+}
 
 const addColumn = (rowIndex: number, colIndex: number) => {
-    treeTable = addColumnAfter(treeTable, colIndex);
-    renderTreeTable('tree-table', treeTable);
+    performAction((table) => addColumnAfter(table, colIndex));
 };
 
-const addRow = (rowIndex: number) => {
-    treeTable = addRowAfter(treeTable, rowIndex);
-    renderTreeTable('tree-table', treeTable);
+const addRow = (rowIndex: number, colIndex: number) => {
+    performAction((table) => addRowAfter(table, rowIndex))
 };
+
+const undo = () => {
+    if (historyPointer > 0) {
+        historyPointer --;
+        history.pop();
+        render();
+    }
+}
+
+const render = () => {
+    renderTreeTable('tree-table', history[historyPointer]);
+}
 
 const init = () => {
     window.TreeTable = {
         AddColumn: addColumn,
         AddRow: addRow,
+        Undo: undo
     };
-
-    renderTreeTable('tree-table', treeTable);
+    render();
 };
 
 init();
